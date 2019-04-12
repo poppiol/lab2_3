@@ -1,6 +1,7 @@
 package edu.iis.mto.similarity;
 
 import edu.iis.mto.search.SearchResult;
+import edu.iis.mto.search.SequenceSearcher;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -74,4 +75,30 @@ public class SimilarityFinderTest {
         similarityFinder.calculateJackardSimilarity(seq, seq2);
     }
 
+    @Test
+    public void calculateJacardSimilarityTestCountAllCalling() {
+        int[] seq = {1, 2, 3};
+        int[] seq2 = {4, 5, 6, 7, 8};
+
+        SequenceSearcherDubler sequenceSearcherDubler = new SequenceSearcherDubler();
+        similarityFinder = new SimilarityFinder(sequenceSearcherDubler);
+        similarityFinder.calculateJackardSimilarity(seq, seq2);
+
+        Assert.assertThat("should be "+ seq.length, sequenceSearcherDubler.getCounter(), is(equalTo(seq.length)));
+    }
+
+
+    class SequenceSearcherDubler implements SequenceSearcher {
+        private int counter;
+
+        @Override
+        public SearchResult search(int key, int[] seq) {
+            counter++;
+            return SearchResult.builder().withFound(false).build();
+        }
+
+        int getCounter() {
+            return counter;
+        }
+    }
 }
