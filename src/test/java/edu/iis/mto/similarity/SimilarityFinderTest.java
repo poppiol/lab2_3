@@ -67,5 +67,11 @@ public class SimilarityFinderTest {
         Assert.assertThat("should be 0.5d", similarityFinder.calculateJackardSimilarity(seq, seq2), is(equalTo(result)));
     }
 
+    @Test(expected = NullPointerException.class)
+    public void calculateJacardSimilarityTestWhereSequenceAreNull() {
+        int[] seq = null;
+        int[] seq2 = null;
+        similarityFinder.calculateJackardSimilarity(seq, seq2);
+    }
 
 }
